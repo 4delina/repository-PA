@@ -42,7 +42,6 @@ int main(int argc, const char *argv[])
     fprintf(fo,"%.3lf\n", ((int)(randMediu*1000))/1000.0);
     fprintf(fo, "%.3lf\n", ((int)(volatilitate*1000))/1000.0);
     fprintf(fo, "%.3lf\n", ((int)(S*1000))/1000.0);
-    rezultate(fo, randMediu, volatilitate, S);
     stergereLista(&cap_lista);
     fclose(fi);
     fclose(fo);

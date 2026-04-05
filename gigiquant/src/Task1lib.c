@@ -42,17 +42,6 @@ void stergereLista(struct Node **cap_lista)
     }
     *cap_lista = NULL;
 }
-void addAtBeginning(struct Node **cap_lista, double v){
-   struct Node* newNode = (struct Node*) malloc(sizeof(struct Node));
-   newNode->valoare=v;
-   newNode->next = *cap_lista;
-   *cap_lista = newNode;
-}
-void rezultate(FILE *fo, double randMediu, double volatilitate, double S){
-    fprintf(fo,"%.3lf\n", ((int)(randMediu*1000))/1000.0);
-    fprintf(fo, "%.3lf\n", ((int)(volatilitate*1000))/1000.0);
-    fprintf(fo, "%.3lf\n", ((int)(S*1000))/1000.0);
-}
 void addAtEnd(struct Node **cap_lista, double v)
 {
     struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
