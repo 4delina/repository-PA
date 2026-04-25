@@ -1,4 +1,5 @@
 #include "Task1.h"
+#include "Task2.h"
 int main(int argc, const char *argv[])
 {
     /// Deschidere fisiere de citire si scriere
@@ -52,7 +53,13 @@ int main(int argc, const char *argv[])
     stergereLista(&cap_lista); }
 
     if(task == 2){
-
+        /// CREARE STIVE PT CELE TREI PIETE
+    struct Elem *P1 = NULL;
+    struct Elem *P2 = NULL;
+    struct Elem *P3 = NULL;
+    char S1[25]=""; char S2[25]=""; char S3[25]="";
+    citire(&P1, &P2, &P3, fi, S1, S2, S3);
+    afisare(P1, P2, P3, fi, S1, S2, S3, fo);
     }
     fclose(fi);
     fclose(fo);
