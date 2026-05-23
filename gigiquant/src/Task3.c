@@ -12,7 +12,7 @@ void add_listaactiuni_BEG(Stocklist **cap, const char sir[])
 void add_listaactiuni_END(Stocklist **cap, const char sir[])
 {
     if (*cap == NULL){
-        add_listaactiuni_BEG(&(*cap), sir);
+        add_listaactiuni_BEG(cap, sir);
     return;}
     Stocklist *aux = *cap;
     while (aux->next != NULL)
