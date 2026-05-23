@@ -18,7 +18,7 @@ void StergereLista(struct Node4 **cap_lista);
 void AddAtEnd(struct Node4 **cap_lista, double v);
 void rezolvare_4(FILE *fi, FILE *fo);
 int cmmdc(int a, int b);
-Fractie reduce_fractie(int numitor, int numarator);
+Fractie reduce_fractie(int numarator, int numitor);
 Fractie adunare(Fractie a, Fractie b);
 void citire_task4(FILE *fi, int *nr_obs, double *dist, int *zi, double *start, double *target, struct Node4 **cap, double *minim);
 void calcul_prob(Fractie vector[], const int a[][20], Fractie prob[][20]);

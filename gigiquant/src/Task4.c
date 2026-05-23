@@ -84,11 +84,11 @@ void calcul_prob(Fractie vector[], const int a[][20], Fractie prob[][20])
 }
 void citire_task4(FILE *fi, int *nr_obs, double *dist, int *zi, double *start, double *target, struct Node4 **cap, double *minim)
 {
-    fscanf(fi, "%d", &(*nr_obs));
-    fscanf(fi, "%lf", &(*dist));
-    fscanf(fi, "%d", &(*zi));
-    fscanf(fi, "%lf", &(*start));
-    fscanf(fi, "%lf", &(*target));
+    fscanf(fi, "%d", nr_obs);
+    fscanf(fi, "%lf", dist);
+    fscanf(fi, "%d", zi);
+    fscanf(fi, "%lf", start);
+    fscanf(fi, "%lf", target);
     (*start) = (*start) - fmod(*start, *dist);
     (*target) = (*target) - fmod(*target, *dist);
     double x;
@@ -119,12 +119,11 @@ void rezolvare_4(FILE *fi, FILE *fo)
     int a[20][20] = {0};
     struct Node4 *aux = cap;
     double x = aux->valoare;
-    double y;
     aux = aux->next;
     /// parcurg lista si stochez in matrice de cate ori este fiecare interval accesat si devine activ, i-intervalul precedent, j-intervalul nou activat
     while (aux != NULL)
     {
-        y = aux->valoare;
+        double y = aux->valoare;
         int i, j;
         i = (x - minim) / dist;
         j = (y - minim) / dist;
