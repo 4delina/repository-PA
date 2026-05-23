@@ -82,9 +82,9 @@ void afisare(struct Elem *P1, struct Elem *P2, struct Elem *P3, const char S1[],
             fprintf(fo, "ziua %d - %.2lf - %s\n", zi, fabs(Stiva1-Stiva3), S1);
         zi++;
     }
-    if(isEmpty(P1)) stergereStiva(&P1);
-    if(isEmpty(P2)) stergereStiva(&P2);
-    if(isEmpty(P3)) stergereStiva(&P3);
+    stergereStiva(&P1);
+    stergereStiva(&P2);
+    stergereStiva(&P3);
 
 }
 void rezolvare_2(FILE *fi, FILE *fo){
