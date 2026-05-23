@@ -1,67 +1,100 @@
+/// aici vor fi functiile efective
 #include "Task1.h"
-#include "Task2.h"
-int main(int argc, const char *argv[])
+
+double sumaVolatilitateTotal(struct Node *cap_lista, double randMediu)
 {
-    /// Deschidere fisiere de citire si scriere
-    FILE *fi = fopen(argv[1], "r");
-    FILE *fo = fopen(argv[2], "w");
-    if (fi == NULL || fo == NULL)
+    double sumaVol = 0;
+    struct Node *p;
+    for (p = cap_lista; p !=NULL && p->next != NULL; p = p->next)
+    { /// mergem pana la penultimul elem al listei, calculez randT pt ziua urm la fiecare pas
+        double randT;
+        randT = p->next->randament;
+        sumaVol = sumaVol + ((randT - randMediu) * (randT - randMediu));
+    }
+    return sumaVol;
+}
+double sumaRandamentTotal(struct Node *cap_lista)
+{
+
+    double sumaRandT = 0;
+    struct Node *p;
+    for (p = cap_lista; p!=NULL && p->next != NULL; p = p->next)
+    {                 /// mergem pana la penultimul elem al listei, calculez randT pt ziua urm la fiecare pas
+        double randT; /// valoarea randamentului incepand cu ziua 2 la momentul t
+        double pretT; /// pretul incepand din ziua 2
+        double pretA; /// pretul anterior, incepe din ziua 1
+        pretT = p->next->valoare;
+        pretA = p->valoare;
+        randT = (pretT - pretA) / pretA;
+        p->next->randament = randT;
+        sumaRandT += randT;
+    }
+    return sumaRandT;
+}
+void stergereLista(struct Node **cap_lista)
+{
+    struct Node *p;
+    while (*cap_lista != NULL)
     {
-        printf("Eroare la deschiderea fisierelor!");
-        return 1;
+        p = (*cap_lista)->next;
+        free(*cap_lista);
+        *cap_lista = p;
     }
-    const char *fisiere[]={ "data1.in", "data2.in", "data3.in", "data4.in", "data5.in", "data6.in", "data7.in", "data8.in", "data9.in", "data10.in","data11.in", "data12.in", "data13.in", "data14.in", "data15.in", "data16.in", "data17.in", "data18.in", "data19.in", "data20.in"};
-    int task=0;
-    for(int i=0; i<=19; i++){
-        if(strcmp(argv[1], fisiere[i])==0){
-            task = i/5 + 1 ;
-            break;}
-    }
-    if(task==1){
-    /// Introduceti numarul total de observatii al portofoliului studiat
-    int nrZile, i;
-    fscanf(fi, "%d", &nrZile);
-    struct Node *cap_lista=NULL;
-    double valoare;
-    for(i=0; i<nrZile; i++){
-        fscanf(fi, "%lf", &valoare);
-        addAtEnd(&cap_lista, valoare);
-    }
+    *cap_lista = NULL;
+}
+void addAtEnd(struct Node **cap_lista, double v)
+{
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+    newNode ->valoare = v; // stocheaza informatia nodului nou
+    newNode->next = NULL;
 
-    /// RANDAMENT MEDIU CALCUL
+    // daca lista este vida , se modifica adresa de inceput
+    if (*cap_lista == NULL){
+        *cap_lista=newNode;
+        return;}
 
-    double sumaRandT = sumaRandamentTotal(cap_lista);
-
-    double randMediu = sumaRandT / (nrZile-1);
-
-    /// VOLATILITATE CALCUL
-
-    double volatilitate = 0;
-    double sumaVol = sumaVolatilitateTotal(cap_lista, randMediu);
-    volatilitate = sumaVol / (nrZile-1);
-    volatilitate = sqrt(volatilitate);
-
-    /// SHARPE RATIO
-
-    double S = randMediu / volatilitate;
-
-    /// REZULTATE
+    struct Node *aux = *cap_lista;
+    while (aux ->next != NULL)
+            aux = aux ->next;
+        // se adauga noul element in lista
+    aux ->next = newNode;
+        newNode ->next = NULL; // final lista
     
-    fprintf(fo,"%.3lf\n", ((int)(randMediu*1000))/1000.0);
-    fprintf(fo, "%.3lf\n", ((int)(volatilitate*1000))/1000.0);
-    fprintf(fo, "%.3lf\n", ((int)(S*1000))/1000.0);
-    stergereLista(&cap_lista); }
+}
 
-    if(task == 2){
-        /// CREARE STIVE PT CELE TREI PIETE
-    struct Elem *P1 = NULL;
-    struct Elem *P2 = NULL;
-    struct Elem *P3 = NULL;
-    char S1[25]=""; char S2[25]=""; char S3[25]="";
-    citire(&P1, &P2, &P3, fi, S1, S2, S3);
-    afisare(P1, P2, P3, fi, S1, S2, S3, fo);
-    }
-    fclose(fi);
-    fclose(fo);
-    return 0;
+void rezolvare_1(FILE *fi, FILE *fo){
+     /// Introduceti numarul total de observatii al portofoliului studiat
+        int nrZile, i;
+        fscanf(fi, "%d", &nrZile);
+        struct Node *cap_lista = NULL;
+        double valoare;
+        for (i = 0; i < nrZile; i++)
+        {
+            fscanf(fi, "%lf", &valoare);
+            addAtEnd(&cap_lista, valoare);
+        }
+
+        /// RANDAMENT MEDIU CALCUL
+
+        double sumaRandT = sumaRandamentTotal(cap_lista);
+
+        double randMediu = sumaRandT / (nrZile - 1);
+
+        /// VOLATILITATE CALCUL
+
+        double volatilitate = 0;
+        double sumaVol = sumaVolatilitateTotal(cap_lista, randMediu);
+        volatilitate = sumaVol / (nrZile - 1);
+        volatilitate = sqrt(volatilitate);
+
+        /// SHARPE RATIO
+
+        double S = randMediu / volatilitate;
+
+        /// REZULTATE
+
+        fprintf(fo, "%.3lf\n", ((int)(randMediu * 1000)) / 1000.0);
+        fprintf(fo, "%.3lf\n", ((int)(volatilitate * 1000)) / 1000.0);
+        fprintf(fo, "%.3lf\n", ((int)(S * 1000)) / 1000.0);
+        stergereLista(&cap_lista);
 }

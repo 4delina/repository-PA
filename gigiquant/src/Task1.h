@@ -12,3 +12,4 @@ double sumaVolatilitateTotal(struct Node *cap_lista,double randMediu);
 double sumaRandamentTotal(struct Node *cap_lista);
 void stergereLista(struct Node **cap_lista);
 void addAtEnd(struct Node **cap_lista, double v);
+void rezolvare_1(FILE *fi, FILE *fo);
